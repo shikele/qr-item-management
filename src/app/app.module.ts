@@ -8,10 +8,13 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import { ItemComponent } from './item/item.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ItemComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +22,8 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
     MatIconModule,
     MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
