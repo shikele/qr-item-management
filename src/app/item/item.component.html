@@ -1,0 +1,6 @@
+<mat-card class="item" *ngIf="qrItemIn" (dblclick)="edit.emit(qrItemIn)">
+  <h2>{{ qrItemIn.name }}</h2>
+  <p>
+    {{ qrItemIn.count }}
+  </p>
+</mat-card>
