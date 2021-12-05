@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {QRItem} from "./item";
 
 @Component({
@@ -8,7 +8,7 @@ import {QRItem} from "./item";
 })
 export class ItemComponent{
 
-  @Input() qrItemIn: QRItem | null = null;
+  @Input() qrItemIn: QRItem|null = null;
   @Output() edit = new EventEmitter<QRItem>();
 
 }
