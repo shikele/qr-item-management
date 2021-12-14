@@ -2,53 +2,56 @@
   <mat-icon>local_fire_department</mat-icon>
   <span>Kanban Fire</span>
 </mat-toolbar>
+<div class="content-wrapper">
+  <button (click)="newQrItem()" mat-button>
+    <mat-icon>add</mat-icon> Add Item
+  </button>
+  <div class="container-wrapper">
+    <div class="container">
+      <h2>Backlog</h2>
 
-<div class="container-wrapper">
-  <div class="container">
-    <h2>Backlog</h2>
+      <mat-card
+        cdkDropList
+        id="todo"
+        #todoList="cdkDropList"
+        [cdkDropListData]="qrItems | async"
+        [cdkDropListConnectedTo]="[doneList, inProgressList]"
+        class="list">
+        <p class="empty-label" *ngIf="(qrItems | async)?.length === 0">Empty list</p>
+        <app-item (edit)="editItem('qrItems', $event)" *ngFor="let qrItem of qrItems | async" cdkDrag [qrItemIn]="qrItem"></app-item>
+      </mat-card>
+    </div>
 
-    <mat-card
-      cdkDropList
-      id="todo"
-      #todoList="cdkDropList"
-      [cdkDropListData]="qrItems"
-      [cdkDropListConnectedTo]="[doneList, inProgressList]"
-      (cdkDropListDropped)="drop($event)"
-      class="list">
-      <p class="empty-label" *ngIf="qrItems.length === 0">Empty list</p>
-      <app-item (edit)="editTask('todo', $event)" *ngFor="let qrItem of qrItems" cdkDrag [qrItemIn]="qrItem"></app-item>
-    </mat-card>
-  </div>
+    <div class="container">
+      <h2>In progress</h2>
 
-  <div class="container">
-    <h2>In progress</h2>
+      <mat-card
+        cdkDropList
+        id="inProgress"
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress | async"
+        [cdkDropListConnectedTo]="[todoList, doneList]"
 
-    <mat-card
-      cdkDropList
-      id="inProgress"
-      #inProgressList="cdkDropList"
-      [cdkDropListData]="inProgress"
-      [cdkDropListConnectedTo]="[todoList, doneList]"
-      (cdkDropListDropped)="drop($event)"
-      class="list">
-      <p class="empty-label" *ngIf="inProgress.length === 0">Empty list</p>
-      <app-item (edit)="editTask('inProgress', $event)" *ngFor="let qrItem of inProgress" cdkDrag [qrItemIn]="qrItem"></app-item>
-    </mat-card>
-  </div>
+        class="list">
+        <p class="empty-label" *ngIf="(inProgress | async)?.length === 0">Empty list</p>
+        <app-item (edit)="editItem('inProgress', $event)" *ngFor="let qrItem of inProgress | async" cdkDrag [qrItemIn]="qrItem"></app-item>
+      </mat-card>
+    </div>
 
-  <div class="container">
-    <h2>Done</h2>
+    <div class="container">
+      <h2>Done</h2>
 
-    <mat-card
-      cdkDropList
-      id="done"
-      #doneList="cdkDropList"
-      [cdkDropListData]="done"
-      [cdkDropListConnectedTo]="[todoList, inProgressList]"
-      (cdkDropListDropped)="drop($event)"
-      class="list">
-      <p class="empty-label" *ngIf="done.length === 0">Empty list</p>
-      <app-item (edit)="editTask('done', $event)" *ngFor="let qrItem of done" cdkDrag [qrItemIn]="qrItem"></app-item>
-    </mat-card>
+      <mat-card
+        cdkDropList
+        id="done"
+        #doneList="cdkDropList"
+        [cdkDropListData]="done | async"
+        [cdkDropListConnectedTo]="[todoList, inProgressList]"
+
+        class="list">
+        <p class="empty-label" *ngIf="(done | async)?.length === 0">Empty list</p>
+        <app-item (edit)="editItem('done', $event)" *ngFor="let qrItem of done | async" cdkDrag [qrItemIn]="qrItem"></app-item>
+      </mat-card>
+    </div>
   </div>
 </div>

@@ -11,11 +11,18 @@ import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import { ItemComponent } from './item/item.component';
 import {MatCardModule} from "@angular/material/card";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatButtonModule} from "@angular/material/button";
+import {QRItemDialogComponent} from './qr-item-dialog/qr-item-dialog.component';
+import {FormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ItemComponent
+    ItemComponent,
+    QRItemDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +32,14 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     MatCardModule,
-    DragDropModule
+    DragDropModule,
+    FormsModule,
+    MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    BrowserAnimationsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

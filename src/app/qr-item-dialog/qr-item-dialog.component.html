@@ -1,0 +1,27 @@
+<mat-form-field>
+  <mat-label>Name</mat-label>
+  <input matInput cdkFocusInitial [(ngModel)]="qrData.item.name" />
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Count</mat-label>
+  <input type="number" matInput [(ngModel)]="qrData.item.count"/>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Date</mat-label>
+  <textarea matInput [(ngModel)]="qrData.item.best_before"></textarea>
+</mat-form-field>
+
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="{ item: qrData.item }">OK</button>
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button
+    *ngIf="qrData.enableDelete"
+    mat-fab
+    color="primary"
+    aria-label="Delete"
+    [mat-dialog-close]="{ item: qrData.item, delete: true }">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
