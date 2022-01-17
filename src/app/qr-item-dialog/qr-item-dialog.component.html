@@ -9,12 +9,23 @@
 </mat-form-field>
 
 <mat-form-field>
-  <mat-label>Date</mat-label>
-  <textarea matInput [(ngModel)]="qrData.item.best_before"></textarea>
+  <mat-label>Choose a date</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="qrData.item.best_before">
+  <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Select</mat-label>
+  <mat-select [(ngModel)]="qrData.storageSelection">
+    <mat-option value="0001">0001</mat-option>
+    <mat-option value="0002">0002</mat-option>
+    <mat-option value="0003">0003</mat-option>
+  </mat-select>
 </mat-form-field>
 
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="{ item: qrData.item }">OK</button>
+  <button mat-button [mat-dialog-close]="{ item: qrData.item, storageSelection: qrData.storageSelection }">OK</button>
   <button mat-button (click)="cancel()">Cancel</button>
   <button
     *ngIf="qrData.enableDelete"

@@ -8,49 +8,50 @@
   </button>
   <div class="container-wrapper">
     <div class="container">
-      <h2>Backlog</h2>
+      <h2>0001</h2>
 
       <mat-card
         cdkDropList
-        id="todo"
-        #todoList="cdkDropList"
-        [cdkDropListData]="qrItems | async"
-        [cdkDropListConnectedTo]="[doneList, inProgressList]"
+        id="0001"
+        #list0001="cdkDropList"
+        [cdkDropListData]="storage_0001 | async"
+        [cdkDropListConnectedTo]="[list0002, list0003]"
+        (cdkDropListDropped)="drop($event)"
         class="list">
-        <p class="empty-label" *ngIf="(qrItems | async)?.length === 0">Empty list</p>
-        <app-item (edit)="editItem('qrItems', $event)" *ngFor="let qrItem of qrItems | async" cdkDrag [qrItemIn]="qrItem"></app-item>
+        <p class="empty-label" *ngIf="(storage_0001 | async)?.length === 0">Empty list</p>
+        <app-item (edit)="editItem('0001', $event)" *ngFor="let item of storage_0001 | async" cdkDrag [qrItemIn]="item"></app-item>
       </mat-card>
     </div>
 
     <div class="container">
-      <h2>In progress</h2>
+      <h2>0002</h2>
 
       <mat-card
         cdkDropList
-        id="inProgress"
-        #inProgressList="cdkDropList"
-        [cdkDropListData]="inProgress | async"
-        [cdkDropListConnectedTo]="[todoList, doneList]"
-
+        id="0002"
+        #list0002="cdkDropList"
+        [cdkDropListData]="storage_0002 | async"
+        [cdkDropListConnectedTo]="[list0001, list0003]"
+        (cdkDropListDropped)="drop($event)"
         class="list">
-        <p class="empty-label" *ngIf="(inProgress | async)?.length === 0">Empty list</p>
-        <app-item (edit)="editItem('inProgress', $event)" *ngFor="let qrItem of inProgress | async" cdkDrag [qrItemIn]="qrItem"></app-item>
+        <p class="empty-label" *ngIf="(storage_0002 | async)?.length === 0">Empty list</p>
+        <app-item (edit)="editItem('0002', $event)" *ngFor="let item of storage_0002 | async" cdkDrag [qrItemIn]="item"></app-item>
       </mat-card>
     </div>
 
     <div class="container">
-      <h2>Done</h2>
+      <h2>0003</h2>
 
       <mat-card
         cdkDropList
-        id="done"
-        #doneList="cdkDropList"
-        [cdkDropListData]="done | async"
-        [cdkDropListConnectedTo]="[todoList, inProgressList]"
-
+        id="0003"
+        #list0003="cdkDropList"
+        [cdkDropListData]="storage_0003 | async"
+        [cdkDropListConnectedTo]="[list0001, list0002]"
+        (cdkDropListDropped)="drop($event)"
         class="list">
-        <p class="empty-label" *ngIf="(done | async)?.length === 0">Empty list</p>
-        <app-item (edit)="editItem('done', $event)" *ngFor="let qrItem of done | async" cdkDrag [qrItemIn]="qrItem"></app-item>
+        <p class="empty-label" *ngIf="(storage_0003 | async)?.length === 0">Empty list</p>
+        <app-item (edit)="editItem('0003', $event)" *ngFor="let item of storage_0003 | async" cdkDrag [qrItemIn]="item"></app-item>
       </mat-card>
     </div>
   </div>

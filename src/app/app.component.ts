@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
-import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {QRItem} from "./item/item";
 import {CdkDragDrop, transferArrayItem} from "@angular/cdk/drag-drop";
 import {MatDialog} from "@angular/material/dialog";
 import {QRItemDialogComponent, QRItemDialogResult} from "./qr-item-dialog/qr-item-dialog.component";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
+
+const getObservable = (collection: AngularFirestoreCollection<QRItem>) => {
+  const subject = new BehaviorSubject<QRItem[]>([]);
+  collection.valueChanges({ idField: 'id' }).subscribe((val: QRItem[]) => {
+    subject.next(val);
+  });
+  return subject;
+};
 
 @Component({
   selector: 'app-root',
@@ -17,26 +25,14 @@ export class AppComponent {
   constructor(private store: AngularFirestore,
               private dialog: MatDialog) {
   }
-  // qrItems: QRItem[] = [
-  //   {
-  //     name: '麻辣烫粉',
-  //     count: 5,
-  //     best_before: '2021-03-26'
-  //   },
-  //   {
-  //     name: '老坛酸菜牛肉面',
-  //     count: 6,
-  //     best_before: '2021-06-30'
-  //   }
-  // ];
-  qrItems = this.store.collection('0001').valueChanges({ idField: 'id' }) as Observable<QRItem[]>;
-  inProgress = this.store.collection('0002').valueChanges({ idField: 'id' }) as Observable<QRItem[]>;
-  done = this.store.collection('0003').valueChanges({ idField: 'id' }) as Observable<QRItem[]>;
+  storage_0001 = getObservable(this.store.collection('0001')) as Observable<QRItem[]>;
+  storage_0002 = getObservable(this.store.collection('0002')) as Observable<QRItem[]>;
+  storage_0003 = getObservable(this.store.collection('0003')) as Observable<QRItem[]>;
 
   // inProgress: QRItem[] = [];
   // done: QRItem[] = [];
 
-  editItem(list: 'done' | 'qrItems' | 'inProgress', item: QRItem): void {
+  editItem(list: '0001' | '0002' | '0003', item: QRItem): void {
     const dialogRef = this.dialog.open(QRItemDialogComponent, {
       width: '270px',
       data: {
@@ -56,30 +52,34 @@ export class AppComponent {
     });
   }
 
-  // drop(event: CdkDragDrop<QRItem[]>): void {
-  //   if (event.previousContainer === event.container) {
-  //     return;
-  //   }
-  //   const item = event.previousContainer.data[event.previousIndex];
-  //   this.store.firestore.runTransaction(() => {
-  //     const promise = Promise.all([
-  //       this.store.collection(event.previousContainer.id).doc(item.id).delete(),
-  //       this.store.collection(event.container.id).add(item),
-  //     ]);
-  //     return promise;
-  //   });
-  //   transferArrayItem(
-  //     event.previousContainer.data,
-  //     event.container.data,
-  //     event.previousIndex,
-  //     event.currentIndex
-  //   );
-  // }
+  drop(event: CdkDragDrop<QRItem[]|null>): void {
+    if (event.previousContainer === event.container) {
+      return;
+    }
+    if (!event.previousContainer.data || !event.container.data) {
+      return;
+    }
+    const item = event.previousContainer.data[event.previousIndex];
+    this.store.firestore.runTransaction(() => {
+      const promise = Promise.all([
+        this.store.collection(event.previousContainer.id).doc(item.id).delete(),
+        this.store.collection(event.container.id).add(item),
+      ]);
+      return promise;
+    });
+    transferArrayItem(
+      event.previousContainer.data,
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
+  }
   newQrItem(): void {
     const dialogRef = this.dialog.open(QRItemDialogComponent, {
       width: '400px',
       data: {
         item: {},
+        storageSelection: '0001'
       },
     });
     dialogRef
@@ -88,7 +88,8 @@ export class AppComponent {
         if (!result) {
           return;
         }
-        this.store.collection('todo').add(result.item);
+        console.log(result)
+        this.store.collection(result.storageSelection).add(result.item);
       });
   }
 }

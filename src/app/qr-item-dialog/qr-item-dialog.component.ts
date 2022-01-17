@@ -15,6 +15,7 @@ export class QRItemDialogComponent{
     public dialogRef: MatDialogRef<QRItemDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public qrData: QRItemDialogData
   ) {
+
     console.log(qrData)
   }
 
@@ -27,10 +28,12 @@ export class QRItemDialogComponent{
 
 export interface QRItemDialogData {
   item: Partial<QRItem>;
+  storageSelection: string;
   enableDelete: boolean;
 }
 
 export interface QRItemDialogResult {
   item: QRItem;
+  storageSelection: string;
   delete?: boolean;
 }
