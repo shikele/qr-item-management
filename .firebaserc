@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "qr-item-counter": {
+      "hosting": {
+        "qr-item-management": [
+          "qr-item-counter"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "qr-item-counter"
+  }
+}

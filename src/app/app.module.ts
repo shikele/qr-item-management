@@ -20,12 +20,18 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
 import {MatNativeDateModule} from "@angular/material/core";
+import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+
+import { AppRoutingModule } from './app-routing.module';
+import {RouterModule} from "@angular/router";
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemComponent,
-    QRItemDialogComponent
+    QRItemDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +39,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatIconModule,
     MatToolbarModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
     AngularFirestoreModule,
     MatCardModule,
     DragDropModule,
@@ -44,10 +51,16 @@ import {MatNativeDateModule} from "@angular/material/core";
     BrowserAnimationsModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    RouterModule,
+    AppRoutingModule,
+
 
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
+
+
 export class AppModule { }
